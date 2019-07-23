@@ -3,21 +3,23 @@ from components.constants import *
 
 
 def create_table(table_name, attributes):
-  conn = sqlite3.connect(absolute_path+'\\server\\commands.db')
+  conn = sqlite3.connect(absolute_path+'\\server\\directories.db')
   c = conn.cursor()
-  c.execute('''
-    CREATE TABLE ?(
-      ?
+  c.execute('''CREATE TABLE IF NOT EXISTS directories(
+      name TEXT,
+      path TEXT,
+      format TEXT
     )
-  ''', (table_name, attributes))
-
+  ''')
+  conn.commit()
+  conn.close()
 
 def suggestions(format, pattern):
   def data_base_request(format, pattern):
-    conn = sqlite3.connect(absolute_path+'\\server\\commands.db')
+    conn = sqlite3.connect(absolute_path+'\\server\\directories.db')
     c = conn.cursor()
     c.execute(
-      "SELECT * FROM commands WHERE format=(?) AND name LIKE (?)",(format, '%'+pattern+'%')
+      "SELECT * FROM directories WHERE format=(?) AND name LIKE (?)",(format, '%'+pattern+'%')
     )
     suggestion_list = c.fetchall()
     conn.commit()
@@ -63,14 +65,14 @@ def load_database(path, preferences):
       if format in preferences:
         db_entry.append([name, directory, format])
     
-    conn = sqlite3.connect(absolute_path+'server\\commands.db')
+    conn = sqlite3.connect(absolute_path+'server\\directories.db')
     c = conn.cursor()
     # add the entries in db_entry into the database
     print('this is the list of entries : ', db_entry)
     for i in range(len(db_entry)):
       try:
         c.execute(
-          'INSERT INTO commands VALUES (?,?,?)', db_entry[i]
+          'INSERT INTO directories VALUES (?,?,?)', db_entry[i]
         )
       except sqlite3.IntegrityError:
         print('This path is already loaded in the database')
@@ -82,9 +84,9 @@ def load_database(path, preferences):
 
 
 def clear_database():
-  conn = sqlite3.connect(absolute_path+'server\\commands.db')
+  conn = sqlite3.connect(absolute_path+'server\\directories.db')
   c = conn.cursor()
-  c.execute('DELETE FROM commands')
+  c.execute('DELETE FROM directories')
   conn.commit()
   conn.close()
   print ('The database has been successfully cleared.')
