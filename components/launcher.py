@@ -11,7 +11,7 @@ class Launcher(Tk):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs) 
     # Defining the main_window aspects
-        self.iconbitmap(absolute_path+'/components/icons/rocket-icon.ico')
+        self.iconbitmap('./components/icons/rocket-icon.ico')
         self.title("Rocket Launcher")
         self.format = formats
     # Defining the widgets
@@ -28,7 +28,7 @@ class Launcher(Tk):
             master=self.container, 
             bg='white'
         )
-        self.icon_image = PhotoImage(file=absolute_path+'/components/icons/refresh.png')
+        self.icon_image = PhotoImage(file='./components/icons/refresh.png')
         self.format_icon.grid(
             row=0, 
             column=0, 
@@ -59,7 +59,7 @@ class Launcher(Tk):
             bg='white', 
             relief='flat'
         )
-        self.button_image = PhotoImage(file=absolute_path+'/components/icons/setting.png')
+        self.button_image = PhotoImage(file='./components/icons/setting.png')
         self.button.config(
             image=self.button_image, 
             height='15', 
@@ -165,9 +165,6 @@ class Launcher(Tk):
 
             elif command == 'drive':
                 subprocess.run("start https://drive.google.com/drive/my-drive", shell=True)
-
-            elif command == 'whatsapp':
-                subprocess.run("C:/Users/8/AppData/Local/WhatsApp/WhatsApp.exe", shell=True)
             
             elif command == 'cmd':
                 subprocess.run("start cmd", shell=True)
@@ -190,9 +187,9 @@ class Launcher(Tk):
 
         if format in self.format:
             try :
-                self.icon_image = PhotoImage(file=absolute_path+'/components/icons/{}.png'.format(format))
+                self.icon_image = PhotoImage(file='./components/icons/{}.png'.format(format))
             except :
-                self.icon_image = PhotoImage(file=absolute_path+'/components/icons/file.png')
+                self.icon_image = PhotoImage(file='./components/icons/file.png')
         
         self.format_icon.config(
             image=self.icon_image,
