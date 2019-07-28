@@ -3,7 +3,7 @@ from components.constants import *
 
 
 def create_table(table_name, attributes):
-  conn = sqlite3.connect(absolute_path+'\\server\\directories.db')
+  conn = sqlite3.connect('./server/directories.db')
   c = conn.cursor()
   c.execute('''CREATE TABLE IF NOT EXISTS directories(
       name TEXT,
@@ -16,7 +16,7 @@ def create_table(table_name, attributes):
 
 def suggestions(format, pattern):
   def data_base_request(format, pattern):
-    conn = sqlite3.connect(absolute_path+'\\server\\directories.db')
+    conn = sqlite3.connect('./server/directories.db')
     c = conn.cursor()
     c.execute(
       "SELECT * FROM directories WHERE format=(?) AND name LIKE (?)",(format, '%'+pattern+'%')
@@ -65,7 +65,7 @@ def load_database(path, preferences):
       if format in preferences:
         db_entry.append([name, directory, format])
     
-    conn = sqlite3.connect(absolute_path+'server\\directories.db')
+    conn = sqlite3.connect('./server/directories.db')
     c = conn.cursor()
     # add the entries in db_entry into the database
     print('this is the list of entries : ', db_entry)
@@ -84,7 +84,7 @@ def load_database(path, preferences):
 
 
 def clear_database():
-  conn = sqlite3.connect(absolute_path+'server\\directories.db')
+  conn = sqlite3.connect('./server/directories.db')
   c = conn.cursor()
   c.execute('DELETE FROM directories')
   conn.commit()
