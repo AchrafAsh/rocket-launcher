@@ -59,9 +59,9 @@ class Result(Frame):
     def get_image(self):
         if self.format in formats:
             try :
-                self.icon_image = PhotoImage(file=absolute_path+'/components/icons/{}.png'.format(self.format))
+                self.icon_image = PhotoImage(file='./components/icons/{}.png'.format(self.format))
             except :
-                self.icon_image = PhotoImage(file=absolute_path+'/components/icons/file.png')
+                self.icon_image = PhotoImage(file='./components/icons/file.png')
         else:
             return None
 
