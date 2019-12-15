@@ -8,8 +8,6 @@ from components.constants import formats
 keyboard = list(string.ascii_lowercase) + \
     [str(i) for i in range(0, 10)] + ['space', '-', 'BackSpace']
 
-print(formats)
-
 class Launcher(Tk):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
@@ -79,7 +77,7 @@ class Launcher(Tk):
         self.results_frame = Frame(
             master=self,
             relief='raised',
-            bg='yellow'
+            bg='white'
         )
         self.results_frame.pack(
             side=BOTTOM,
@@ -111,10 +109,9 @@ class Launcher(Tk):
     def give_suggestions(self, event):
         self.clear_suggestions()
         entry = self.entry.get()
-
         if '  ' in entry:
-            format, pattern = entry.split(sep='  ')
-            suggestions_dict = requests.suggestions(format, pattern)
+            input_format, pattern = entry.split(sep='  ')
+            suggestions_dict = requests.suggestions(input_format, pattern)
             if pattern != '':
                 for name in suggestions_dict.keys():
                     path = suggestions_dict[name]
@@ -123,17 +120,17 @@ class Launcher(Tk):
                         master=self.results_frame,
                         name=name,
                         path=path,
-                        format=format,
+                        format=input_format,
                         bg='white'
                     )
                     new_result.grid(
                         sticky=W
                     )
 
-                    def choose_result(event, format=format, path=path):
-                        print(format, '  ', path)
+                    def choose_result(event, format=input_format, path=path):
+                        print(input_format, '  ', path)
                         self.entry.delete(0, len(self.entry.get()))
-                        self.entry.insert(0, format + '  ' + path)
+                        self.entry.insert(0, input_format + '  ' + path)
                     for child in new_result.winfo_children():
                         child.bind('<Button-1>', choose_result)
 
@@ -171,6 +168,9 @@ class Launcher(Tk):
 
             elif command == 'cmd':
                 subprocess.run("gnome-terminal", shell=True)
+
+            elif command == 'code':
+                subprocess.run("code {}".format(research), shell=True)
 
             elif command in self.format:
                 subprocess.run("xdg-open {}".format(research), shell=True)

@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter.font import Font
-from components.constants import *
-
+from components.constants import formats
 
 class Result(Frame):
     def __init__(self, master, name, path, format, *args, **kwargs):
@@ -57,8 +56,8 @@ class Result(Frame):
         if self.format in formats:
             try:
                 self.icon_image = PhotoImage(
-                    file='./icons/{}.png'.format(self.format))
+                    file='./components/icons/{}.png'.format(self.format))
             except:
-                self.icon_image = PhotoImage(file='./icons/file.png')
+                self.icon_image = PhotoImage(file='./components/icons/file.png')
         else:
             return None

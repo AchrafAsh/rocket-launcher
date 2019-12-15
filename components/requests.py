@@ -16,12 +16,14 @@ def create_table():
 
 create_table()
 
-def suggestions(format, pattern):
-    def data_base_request(format, pattern):
+def suggestions(input_format, pattern):
+    if input_format == "code":
+        input_format = "folder"
+    def data_base_request(input_format, pattern):
         conn = sqlite3.connect('directories.db')
         c = conn.cursor()
         c.execute(
-            "SELECT * FROM directories WHERE format=(?) AND name LIKE (?)", (format,
+            "SELECT * FROM directories WHERE format=(?) AND name LIKE (?)", (input_format,
                                                                              '%'+pattern+'%')
         )
         suggestion_list = c.fetchall()
@@ -29,11 +31,11 @@ def suggestions(format, pattern):
         conn.close()
         return suggestion_list
 
-    suggestion_list = data_base_request(format, pattern)
+    suggestion_list = data_base_request(input_format, pattern)
 
     k = 1
     while not suggestion_list and k < len(pattern)-2:
-        suggestion_list = data_base_request(format, pattern[:-k])
+        suggestion_list = data_base_request(input_format, pattern[:-k])
         k += 1
 
     suggestion_dict = {}
