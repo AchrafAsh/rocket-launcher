@@ -1,6 +1,6 @@
 import sqlite3
 import subprocess
-from components.constants import *
+from components.constants import * # bad practice
 
 
 def create_table(table_name, attributes):

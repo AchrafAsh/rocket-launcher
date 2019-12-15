@@ -30,7 +30,7 @@ class Launcher(Tk):
             master=self.container,
             bg='white'
         )
-        self.icon_image = PhotoImage(file='./icons/refresh.png')
+        self.icon_image = PhotoImage(file='./components/icons/refresh.png')
         self.format_icon.grid(
             row=0,
             column=0,
@@ -61,7 +61,7 @@ class Launcher(Tk):
             bg='white',
             relief='flat'
         )
-        self.button_image = PhotoImage(file='./icons/setting.png')
+        self.button_image = PhotoImage(file='./components/icons/setting.png')
         self.button.config(
             image=self.button_image,
             height='15',
@@ -141,50 +141,39 @@ class Launcher(Tk):
         request = self.entry.get()
         if '  ' in request:
             command, research = request.split(sep='  ')
-
             if command == 'google':
                 research = research.replace(' ', '+')
                 subprocess.run(
-                    'start www.google.com/search?q={}'.format(research), shell=True)
+                    'google-chrome www.google.com/search?q={}'.format(research), shell=True)
 
             elif command == 'youtube':
                 research = research.replace(' ', '+')
                 subprocess.run(
-                    'start www.youtube.com/search?q={}'.format(research), shell=True)
+                    'google-chrome www.youtube.com/search?q={}'.format(research), shell=True)
 
             elif command == 'wiki':
                 research = research.replace(' ', '_')
                 subprocess.run(
-                    'start https://en.wikipedia.org/wiki/{}'.format(research), shell=True)
+                    'google-chrome https://en.wikipedia.org/wiki/{}'.format(research), shell=True)
 
             elif command == 'amazon':
                 research = research.replace(' ', '+')
                 subprocess.run(
-                    'start www.amazon.fr/s?k={}'.format(research), shell=True)
+                    'google-chrome www.amazon.fr/s?k={}'.format(research), shell=True)
 
             elif command == 'open':
                 subprocess.call("start {}".format(research),
                                 shell=True)  # enter a directory
 
-            elif command == 'anki':
-                subprocess.run("C:/Program Files/Anki/anki.exe", shell=True)
-
             elif command == 'drive':
                 subprocess.run(
-                    "start https://drive.google.com/drive/my-drive", shell=True)
-
-            elif command == 'whatsapp':
-                subprocess.run(
-                    "C:/Users/8/AppData/Local/WhatsApp/WhatsApp.exe", shell=True)
+                    "google-chrome https://drive.google.com/drive/my-drive", shell=True)
 
             elif command == 'cmd':
-                subprocess.run("start cmd", shell=True)
-
-            elif command == 'shell':
-                subprocess.run("start powershell", shell=True)
+                subprocess.run("gnome-terminal", shell=True)
 
             elif command in self.format:
-                subprocess.run("start {}".format(research), shell=True)
+                subprocess.run("xdg-open {}".format(research), shell=True)
 
             self.entry.delete(0, len(request))
         return
@@ -201,7 +190,7 @@ class Launcher(Tk):
                 self.icon_image = PhotoImage(
                     file='./icons/{}.png'.format(format))
             except:
-                self.icon_image = PhotoImage(file='./icons/file.png')
+                self.icon_image = PhotoImage(file='./components/icons/file.png')
 
         self.format_icon.config(
             image=self.icon_image,
