@@ -1,9 +1,8 @@
 import sqlite3
 import subprocess
-from components.constants import * # bad practice
+from components.constants import formats
 
-
-def create_table(table_name, attributes):
+def create_table():
     conn = sqlite3.connect('directories.db')
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS directories(
@@ -15,6 +14,7 @@ def create_table(table_name, attributes):
     conn.commit()
     conn.close()
 
+create_table()
 
 def suggestions(format, pattern):
     def data_base_request(format, pattern):
@@ -47,26 +47,33 @@ def suggestions(format, pattern):
 def load_database(path, preferences):
     '''path s quite explicit and preferences is a list of format to load
     returns nothing but insert all the values(folders and files) in commands.db'''
+    def isDirectory(directory):
+        return directory and directory[-1] == ":" 
 
-    if int(subprocess.getoutput(
-        'dir {} /s /b | find /c /v "::"'.format(path)
-    )) > 2000:
+    if int(subprocess.getoutput('ls {} -R1 | wc -l'.format(path)))> 2000:
         print('too many files, may be useless')
         # or maybe give the user the possibility to force the loading
     else:
         # retrieve and reformat the content within the path
-        content = str(subprocess.getoutput('dir {} /b /s'.format(path)))
+        content = str(subprocess.getoutput('ls {} -R1'.format(path)))
         content = content.split(sep='\n')
         db_entry = []
-        for directory in content:
-            name = directory.split(sep='\\')[-1]
-            if '.' in name:
-                format = name.split(sep='.')[-1]
-            else:
-                format = 'folder'
-
-            if format in preferences:
-                db_entry.append([name, directory, format])
+        i = 0
+        while i < len(content):
+            if isDirectory(content[i]):
+                dir_path = content[i][:-1]
+                dir_name = dir_path.split(sep="/")[-1]
+                dir_format = "folder"
+                db_entry.append([dir_name, dir_path, dir_format])
+                db_entry.append([dir_name, dir_path, dir_format])
+                i += 1
+                while (i < len(content) and not isDirectory(content[i])):
+                    file_name = content[i]
+                    if '.' in file_name:
+                        file_path = dir_path + '/' + file_name
+                        file_format = file_name.split(sep='.')[-1]
+                        db_entry.append([file_name, file_path, file_format])
+                    i += 1
 
         conn = sqlite3.connect('directories.db')
         c = conn.cursor()

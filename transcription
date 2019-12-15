@@ -1,0 +1,10 @@
+dir {} /s /b | find /c /v "::"
+dir {} /b /s
+
+{} = pwd
+
+dir => cd
+/s => -R
+/b = bare format
+
+cd -R1

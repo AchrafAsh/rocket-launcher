@@ -3,12 +3,12 @@ from tkinter.font import Font
 import subprocess
 import string
 from components import requests, result, settings
-from components.constants import *
-
+from components.constants import formats
 
 keyboard = list(string.ascii_lowercase) + \
     [str(i) for i in range(0, 10)] + ['space', '-', 'BackSpace']
 
+print(formats)
 
 class Launcher(Tk):
     def __init__(self, *args, **kwargs):
@@ -183,12 +183,11 @@ class Launcher(Tk):
         return
 
     def set_icon(self, event):
-        format = self.entry.get()[:-1]
+        input_format = self.entry.get()[:-1]
 
-        if format in self.format:
+        if input_format in self.format:
             try:
-                self.icon_image = PhotoImage(
-                    file='./icons/{}.png'.format(format))
+                self.icon_image = PhotoImage(file='./components/icons/{}.png'.format(input_format))
             except:
                 self.icon_image = PhotoImage(file='./components/icons/file.png')
 
