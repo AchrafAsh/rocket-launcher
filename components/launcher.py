@@ -141,39 +141,35 @@ class Launcher(Tk):
             if command == 'google':
                 research = research.replace(' ', '+')
                 subprocess.run(
-                    'google-chrome www.google.com/search?q={}'.format(research), shell=True)
+                    'google-chrome www.google.com/search?q={} &'.format(research), shell=True)
 
             elif command == 'youtube':
                 research = research.replace(' ', '+')
                 subprocess.run(
-                    'google-chrome www.youtube.com/search?q={}'.format(research), shell=True)
+                    'google-chrome www.youtube.com/search?q={} &'.format(research), shell=True)
 
             elif command == 'wiki':
                 research = research.replace(' ', '_')
                 subprocess.run(
-                    'google-chrome https://en.wikipedia.org/wiki/{}'.format(research), shell=True)
+                    'google-chrome https://en.wikipedia.org/wiki/{} &'.format(research), shell=True)
 
             elif command == 'amazon':
                 research = research.replace(' ', '+')
                 subprocess.run(
-                    'google-chrome www.amazon.fr/s?k={}'.format(research), shell=True)
-
-            elif command == 'open':
-                subprocess.call("start {}".format(research),
-                                shell=True)  # enter a directory
+                    'google-chrome www.amazon.fr/s?k={} &'.format(research), shell=True)
 
             elif command == 'drive':
                 subprocess.run(
-                    "google-chrome https://drive.google.com/drive/my-drive", shell=True)
+                    "google-chrome https://drive.google.com/drive/my-drive &", shell=True)
 
             elif command == 'cmd':
-                subprocess.run("gnome-terminal", shell=True)
+                subprocess.run("gnome-terminal &", shell=True)
 
             elif command == 'code':
-                subprocess.run("code {}".format(research), shell=True)
+                subprocess.run("code {} &".format(research), shell=True)
 
             elif command in self.format:
-                subprocess.run("xdg-open {}".format(research), shell=True)
+                subprocess.run("xdg-open {} &".format(research), shell=True)
 
             self.entry.delete(0, len(request))
         return
