@@ -2,6 +2,7 @@ import sqlite3
 import subprocess
 from components.constants import formats
 
+
 def create_table():
     conn = sqlite3.connect('directories.db')
     c = conn.cursor()
@@ -14,11 +15,14 @@ def create_table():
     conn.commit()
     conn.close()
 
+
 create_table()
+
 
 def suggestions(input_format, pattern):
     if input_format == "code":
         input_format = "folder"
+
     def data_base_request(input_format, pattern):
         conn = sqlite3.connect('directories.db')
         c = conn.cursor()
@@ -50,9 +54,9 @@ def load_database(path, preferences):
     '''path s quite explicit and preferences is a list of format to load
     returns nothing but insert all the values(folders and files) in commands.db'''
     def isDirectory(directory):
-        return directory and directory[-1] == ":" 
+        return directory and directory[-1] == ":"
 
-    if int(subprocess.getoutput('ls {} -R1 | wc -l'.format(path)))> 2000:
+    if int(subprocess.getoutput('ls {} -R1 | wc -l'.format(path))) > 100000:
         print('too many files, may be useless')
         # or maybe give the user the possibility to force the loading
     else:
