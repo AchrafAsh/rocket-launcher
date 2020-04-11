@@ -10,7 +10,6 @@ class Settings(Toplevel):
         Toplevel.__init__(self, master, *args, **kwargs)
     # Window features
         self.title("Settings")
-        self.iconbitmap(absolute_path+'/components/icons/settings.ico')
     # Widgets
         self.container = Frame(master=self)
         self.container.pack(
